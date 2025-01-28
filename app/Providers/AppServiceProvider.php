@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\CoreUtils\GetPathMigrationsFileCoreUtil;
+use App\Core\PathConfigFiles\Migrations\PathConfigMigrationFiles;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,6 +20,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->loadMigrationsFrom((new GetPathMigrationsFileCoreUtil())->handle());
+        $this->loadMigrationsFrom((new PathConfigMigrationFiles())->handle());
     }
 }

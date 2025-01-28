@@ -1,20 +1,29 @@
 <?php
 
-namespace App\CoreUtils;
+namespace App\Core\PathConfigFiles;
 
-class GetPathMigrationsFileCoreUtil
+abstract class AbstractPathConfigFiles
 {
-    public function handle(): array
+    private string $config;
+
+    abstract function handle(): mixed;
+
+    protected function setConfig(string $config): void
     {
-        return $this->getFilesInDirectory();
+        $this->config = $config;
     }
 
-    private function getFilesInDirectory(): array
+    private function getConfig(): string
+    {
+        return ucfirst($this->config);
+    }
+
+    protected function getFilesInDirectory(): array
     {
         $files = [];
 
         $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(
-            $this->getDirectoryModulesMigrations()
+            $this->getDirectoryModules()
         ));
 
         foreach ($iterator as $file) {
@@ -23,11 +32,10 @@ class GetPathMigrationsFileCoreUtil
             }
         }
 
-
         return $this->sortingPaths($files);
     }
 
-    private function getDirectoryModulesMigrations(): string
+    private function getDirectoryModules(): string
     {
         return sprintf('%s', base_path('app/Modules/'));
     }
@@ -35,7 +43,7 @@ class GetPathMigrationsFileCoreUtil
     private function sortingPaths(array $files): array
     {
         return array_filter(array_map(function ($item) {
-            if (preg_match('#/Migrations/.+\.php$#i', $item)) {
+            if (preg_match(sprintf('#/%s/.+\.php$#i', $this->getConfig()), $item)) {
                 return preg_replace('#.*?/app/#', 'app/', $item);
             }
             return null;
