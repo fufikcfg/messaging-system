@@ -87,7 +87,7 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Выравнивание контента в начале */
+    justify-content: flex-start;
 }
 
 .card-footer {
