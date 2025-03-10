@@ -6,4 +6,4 @@ Route::get('/{page}', function () {
 
     return view('app');
 
-})->where('page', '.*');
+})->where('page', '^(?!api|/).*$');
