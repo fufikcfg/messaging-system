@@ -1,16 +1,30 @@
 <template>
-<div class="ms-auto">
-    <a class="btn m-1 btn-outline-danger" href="#">Выйти</a>
-    <router-link to="/registration" class="btn m-1 btn-outline-success" href="#">Регистрация</router-link>
-    <router-link to="/login" class="btn m-1 btn-outline-success">Войти</router-link>
-
-</div>
+    <div class="ms-auto">
+        <button v-if="isAuthenticated" @click.prevent="exit()" class="btn m-1 btn-outline-danger">Выйти</button>
+        <router-link v-if="!isAuthenticated" to="/registration" class="btn m-1 btn-outline-success">Регистрация</router-link>
+        <router-link v-if="!isAuthenticated" to="/login" class="btn m-1 btn-outline-success">Войти</router-link>
+    </div>
 </template>
 
-<script setup>
+<script>
+import { mapGetters } from 'vuex';
+import { LOGOUT } from "../../../store/types/actions.type.js";
+import router from "../../../router/index.js";
 
+export default {
+    methods: {
+        exit() {
+            this.$store
+                .dispatch(LOGOUT)
+                .finally(() => {
+                    router.push(
+                        { name: 'Login' }
+                    );
+            });
+        }
+    },
+    computed: {
+        ...mapGetters(['isAuthenticated'])
+    }
+};
 </script>
-
-<style scoped>
-
-</style>

@@ -9,8 +9,15 @@ Route::prefix('/api/v1/users/authorization')->middleware('api')->group(function 
 
     Route::post('/login', [AuthorizationUserController::class, 'login']);
 
-    Route::get('/exit', [
-        AuthorizationUserController::class, 'exit'
-    ])->middleware('auth:sanctum');
+    Route::middleware(['auth:sanctum'])->group(function () {
 
+        Route::get('/exit', [
+            AuthorizationUserController::class, 'exit'
+        ]);
+
+        Route::get('/verify', [
+            AuthorizationUserController::class, 'verify'
+        ]);
+
+    });
 });

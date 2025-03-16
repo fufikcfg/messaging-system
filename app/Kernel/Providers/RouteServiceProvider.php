@@ -2,7 +2,7 @@
 
 namespace App\Kernel\Providers;
 
-use App\Kernel\PathConfigFiles\Routes\PathConfigRouteFiles;
+use App\Kernel\PathConfigFiles\Routes\PathConfigAPIRouteFiles;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
@@ -12,6 +12,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->routes((new PathConfigRouteFiles())->handle());
+        $this->routes((new PathConfigAPIRouteFiles())->handle());
     }
 }

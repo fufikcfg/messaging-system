@@ -3,6 +3,7 @@
 namespace App\Modules\Users\Actions;
 
 use App\Modules\Users\Tasks\CreateUserTask;
+use Illuminate\Database\Eloquent\Model as User;
 
 class RegistrationUserAction
 {
@@ -11,10 +12,10 @@ class RegistrationUserAction
     ) {
     }
 
-    public function run(array $data): array
+    public function run(array $data): User
     {
-        return [
-            'token' => $this->createUserTask->run($data)->createToken($data['email'])->plainTextToken
-        ];
+        $user = $this->createUserTask->run($data);
+        $user->token = $user->createToken($data['email'])->plainTextToken;
+        return $user;
     }
 }
